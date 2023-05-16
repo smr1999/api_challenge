@@ -15,4 +15,5 @@ class Database(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class Config(Api,Database):
-    pass
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", default="jwt_secret_password")
+    SECRET_KEY = os.getenv("SECRET_KEY", default="secret_password")
