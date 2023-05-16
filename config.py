@@ -1,3 +1,5 @@
+import os
+
 class Api(object):
     API_TITLE = "Ad system - REST API"
     API_VERSION = "v1"
@@ -8,6 +10,9 @@ class Api(object):
     OPENAPI_SWAGGER_UI_PATH = "/swagger-ui"
     OPENAPI_SWAGGER_UI_URL = "https://cdn.jsdelivr.net/npm/swagger-ui-dist@3.25.x/"
 
+class Database(object):
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL","sqlite:///data.db")
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-class Config(Api):
+class Config(Api,Database):
     pass
