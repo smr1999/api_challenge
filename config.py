@@ -10,6 +10,9 @@ class Api(object):
     OPENAPI_SWAGGER_UI_PATH = "/swagger-ui"
     OPENAPI_SWAGGER_UI_URL = "https://cdn.jsdelivr.net/npm/swagger-ui-dist@3.25.x/"
 
+    OPENAPI_RAPIDOC_PATH = "/rapid_doc"
+    OPENAPI_RAPIDOC_URL = "https://unpkg.com/rapidoc/dist/rapidoc-min.js"
+
 class Database(object):
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL","sqlite:///data.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False

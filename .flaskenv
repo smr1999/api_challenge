@@ -1,3 +1,4 @@
 FLASK_DEBUG=1
 SECRET_KEY=secure_password
 JWT_SECRET_KEY=jwt_secure_password
+DATABASE_URL=postgresql+psycopg2://postgres:postgres@localhost/api_challenge

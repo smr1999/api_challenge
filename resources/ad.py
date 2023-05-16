@@ -15,9 +15,12 @@ blp = Blueprint("ad" , __name__ , description = "'Operations on Ads'")
 @blp.route("/ad/<int:ad_id>")
 class AdManager(MethodView):
     @blp.response(status_code=200, schema= AdSchema)
+    @blp.alt_response(status_code=404, 
+                      description="When ad with this id not found."
+    )
     def get(self, ad_id):
+        """Get specific Ad with it's ad_id."""
         ad = AdModel.query.filter_by(id = ad_id).first()
-        print(ad)
         
         if not ad:
             abort(
@@ -28,7 +31,18 @@ class AdManager(MethodView):
         return ad
 
     @jwt_required()
+    @blp.response(status_code=200)
+    @blp.alt_response(status_code=404,
+                      description="When ad with this id not found."
+    )
+    @blp.alt_response(status_code=403,
+                      description="When user wants to remove other ads."
+    )
+    @blp.alt_response(status_code=500,
+                      description="An error occured when database problem."
+    )
     def delete(self, ad_id):
+        """Remove specific Ad with it's ad_id."""
         ad = AdModel.query.filter_by(id = ad_id).first()
 
         if not ad:
@@ -54,12 +68,23 @@ class AdManager(MethodView):
 
         return {
             "message" : "Ad deleted successfully."
-        }, 200
+        }
     
+
     @jwt_required()
     @blp.arguments(schema=AdSchema)
     @blp.response(status_code=200, schema=AdSchema)
+    @blp.alt_response(status_code=404,
+                      description="When ad with this id not found."
+    )
+    @blp.alt_response(status_code=403,
+                      description="When user wants to update other ads."
+    )
+    @blp.alt_response(status_code=500,
+                      description="An error occured when database problem."
+    )
     def put(self, ad_data, ad_id):
+        """Modify specific Ad with it's ad_id"""
         ad = AdModel.query.filter_by(id = ad_id).first()
 
         if not ad:
@@ -93,7 +118,11 @@ class CreateAd(MethodView):
     @jwt_required()
     @blp.arguments(schema=AdSchema)
     @blp.response(status_code=200,schema=AdSchema)
+    @blp.alt_response(status_code=500,
+                      description="An error occured when database problem."
+    )
     def post(self, ad_data):
+        """Create an Ad with it's title and description"""
         try:
             ad = AdModel(title = ad_data["title"], description = ad_data["description"])
             current_user.ads.append(ad)
@@ -111,4 +140,5 @@ class CreateAd(MethodView):
 class GetAllAds(MethodView):
     @blp.response(status_code=200, schema=AdSchema(many=True))
     def get(self):
+        """Retrive all the ads"""
         return AdModel.query.all()

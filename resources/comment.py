@@ -17,7 +17,17 @@ class CommentManager(MethodView):
     @jwt_required()
     @blp.arguments(schema=CommentSchema)
     @blp.response(status_code=200, schema=CommentSchema)
+    @blp.alt_response(status_code=404,
+                      description="When entered 'ad_id' not found."
+    )
+    @blp.alt_response(status_code=409,
+                      description="When user wants to submit more that one comment for each ad."
+    )
+    @blp.alt_response(status_code=500,
+                      description="An error occured when database problem."
+    )
     def post(self, comment_data ,ad_id):
+        """Comment on a specific ad"""
         ad = AdModel.query.filter_by(id = ad_id).first()
 
         if not ad:
