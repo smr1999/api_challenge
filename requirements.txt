@@ -18,8 +18,10 @@ Mako==1.2.4
 MarkupSafe==2.1.2
 marshmallow==3.19.0
 packaging==23.1
+psycopg2==2.9.6
 PyJWT==2.7.0
 python-dotenv==1.0.0
+redis==4.5.5
 SQLAlchemy==2.0.13
 typing_extensions==4.5.0
 webargs==8.2.0
