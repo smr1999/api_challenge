@@ -13,11 +13,11 @@ from models import UserModel
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from db import db
 
-from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, current_user, get_jti
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, current_user, get_jwt
 
 from blocklist import BLOCKLIST
 
-blp = Blueprint("user" , __name__ , description = "User blueprint")
+blp = Blueprint("user" , __name__ , description = "'Operations on Users'")
 
 
 @blp.route("/register")
@@ -99,7 +99,8 @@ class RefreshToken(MethodView):
 class LogoutUser(MethodView):
     @jwt_required()
     def post(self):
-        BLOCKLIST.set( get_jti(), "", ex=timedelta(minutes=15))
+        jti = get_jwt()["jti"]
+        BLOCKLIST.set( jti, "", ex=timedelta(minutes=15))
 
         return {
             "message" : "successfully logged out."

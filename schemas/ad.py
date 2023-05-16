@@ -9,3 +9,6 @@ class PlainAdSchema(Schema):
 class AdSchema(PlainAdSchema):
     from .user import PlainUserSchema
     creator = fields.Nested(PlainUserSchema, dump_only=True)
+
+    from .comment import PlainCommentSchema
+    comments = fields.List(fields.Nested(PlainCommentSchema), dump_only=True)

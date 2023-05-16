@@ -1,19 +1,15 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint,abort
 
-from werkzeug.security import generate_password_hash
-
-from email_validator import validate_email
-
 from schemas import AdSchema
 
 from models import AdModel
-from sqlalchemy.exc import IntegrityError, SQLAlchemyError
+from sqlalchemy.exc import SQLAlchemyError
 from db import db
 
 from flask_jwt_extended import jwt_required, current_user
 
-blp = Blueprint("ad" , __name__ , description = "Ad blueprint")
+blp = Blueprint("ad" , __name__ , description = "'Operations on Ads'")
 
 
 @blp.route("/ad/<int:ad_id>")

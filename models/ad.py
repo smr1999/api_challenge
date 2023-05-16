@@ -9,3 +9,5 @@ class AdModel(db.Model):
     description = db.Column(db.String(), nullable=False)
 
     creator_id = db.Column(db.Integer(), db.ForeignKey("users.id"), nullable=False)
+
+    comments = db.relationship("CommentModel", backref = "ad", lazy= "dynamic", cascade= "all,delete")

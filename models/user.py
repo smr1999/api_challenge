@@ -8,3 +8,4 @@ class UserModel(db.Model):
     password = db.Column(db.String(100), nullable=False)
 
     ads = db.relationship("AdModel", backref = "creator", lazy= "dynamic", cascade= "all,delete")
+    comments = db.relationship("CommentModel", backref = "writer", lazy= "dynamic", cascade= "all,delete")
